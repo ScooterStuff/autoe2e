@@ -1,0 +1,237 @@
+# =============================================================================
+# AutoE2E Ablation Study Configuration
+# =============================================================================
+# This file defines all ablation variants for systematic component evaluation.
+# Each ablation changes exactly ONE component from the baseline.
+#
+# Total: 30 ablations + 1 baseline = 31 configurations
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# BASELINE CONFIGURATION (Full AutoE2E System)
+# -----------------------------------------------------------------------------
+baseline:
+  id: "baseline"
+  description: "Full AutoE2E system with all components enabled"
+  context:
+    include_screenshot: true
+    include_previous_state: true
+    include_previous_action: true
+  prompting:
+    strategy: "dual" # dual, single_action, action_pair, merged
+  scoring:
+    function: "geometric" # geometric, uniform, linear, binary
+    p: 0.5
+    R: 10
+  aggregation:
+    method: "semantic" # semantic, embedding_only, exact_match, none
+    similarity_threshold: 0.85
+    llm_validation: true
+  accumulation:
+    method: "differential" # differential, simple_sum, maximum, final_only
+  finality:
+    method: "llm" # llm, heuristic, all_final, disabled
+  score_threshold:
+    enabled: false
+    min_score: null # No threshold by default
+
+# =============================================================================
+# COMPONENT 1: CONTEXT EXTRACTION ABLATIONS
+# =============================================================================
+
+A1.1_no_screenshot:
+  id: "A1.1"
+  description: "No screenshot context - text only"
+  parent: "baseline"
+  overrides:
+    context:
+      include_screenshot: false
+
+A1.2_no_previous_state:
+  id: "A1.2"
+  description: "No previous state context"
+  parent: "baseline"
+  overrides:
+    context:
+      include_previous_state: false
+
+A1.3_no_previous_action:
+  id: "A1.3"
+  description: "No previous action context"
+  parent: "baseline"
+  overrides:
+    context:
+      include_previous_action: false
+
+A1.4_minimal_context:
+  id: "A1.4"
+  description: "Minimal context - no screenshot, no history"
+  parent: "baseline"
+  overrides:
+    context:
+      include_screenshot: false
+      include_previous_state: false
+      include_previous_action: false
+
+# =============================================================================
+# COMPONENT 2: DUAL-PROMPT FEATURE INFERENCE ABLATIONS
+# =============================================================================
+
+A2.1_single_action_only:
+  id: "A2.1"
+  description: "Single-action query only - skip action-pair"
+  parent: "baseline"
+  overrides:
+    prompting:
+      strategy: "single_action"
+
+A2.2_action_pair_only:
+  id: "A2.2"
+  description: "Action-pair query only - skip single-action"
+  parent: "baseline"
+  overrides:
+    prompting:
+      strategy: "action_pair"
+
+A2.3_merged_query:
+  id: "A2.3"
+  description: "Single merged query with both contexts"
+  parent: "baseline"
+  overrides:
+    prompting:
+      strategy: "merged"
+
+# =============================================================================
+# COMPONENT 3: PROBABILISTIC SCORING FUNCTION ABLATIONS
+# =============================================================================
+
+# --- Scoring Method Variants ---
+
+A3.1_uniform_scoring:
+  id: "A3.1"
+  description: "Uniform scoring - equal weight for top-R"
+  parent: "baseline"
+  overrides:
+    scoring:
+      function: "uniform"
+
+A3.2_linear_scoring:
+  id: "A3.2"
+  description: "Linear scoring - linear decay by rank"
+  parent: "baseline"
+  overrides:
+    scoring:
+      function: "linear"
+
+A3.3_binary_scoring:
+  id: "A3.3"
+  description: "Binary scoring - presence only"
+  parent: "baseline"
+  overrides:
+    scoring:
+      function: "binary"
+
+# --- Geometric p Parameter Variant ---
+
+A3.4_p_0.3:
+  id: "A3.4"
+  description: "Geometric with p=0.3 (flatter distribution, less top-rank emphasis)"
+  parent: "baseline"
+  overrides:
+    scoring:
+      p: 0.3
+
+# --- Max Candidate R Variant ---
+
+A3.5_R_5:
+  id: "A3.5"
+  description: "Max candidates R=5 (consider fewer top features)"
+  parent: "baseline"
+  overrides:
+    scoring:
+      R: 5
+
+# =============================================================================
+# COMPONENT 4: EVIDENCE ACCUMULATION ABLATIONS (formerly C5)
+# =============================================================================
+
+A5.1_final_only:
+  id: "A5.1"
+  description: "Final action score only - no accumulation"
+  parent: "baseline"
+  overrides:
+    accumulation:
+      method: "final_only"
+
+A5.2_simple_sum:
+  id: "A5.2"
+  description: "Simple sum - no differential"
+  parent: "baseline"
+  overrides:
+    accumulation:
+      method: "simple_sum"
+
+A5.3_maximum:
+  id: "A5.3"
+  description: "Maximum score across action chain"
+  parent: "baseline"
+  overrides:
+    accumulation:
+      method: "maximum"
+
+# =============================================================================
+# INTERACTION ANALYSIS: Combined ablations for 2x2 factorial design
+# =============================================================================
+# Tests interaction effects between two factors:
+#   Factor A: Context (Screenshot ON vs OFF)
+#   Factor B: Evidence Accumulation (Differential vs Final Only)
+#
+# 2x2 Matrix:
+#   baseline       = Screenshot ON  + Differential
+#   A1.1           = Screenshot OFF + Differential
+#   A5.1           = Screenshot ON  + Final Only
+#   IA_A1.1_A5.1   = Screenshot OFF + Final Only
+# =============================================================================
+
+IA_A1.1_A5.1_no_screenshot_final_only:
+  id: "IA_A1.1_A5.1"
+  description: "Interaction: No screenshot + Final-only accumulation"
+  parent: "baseline"
+  overrides:
+    context:
+      include_screenshot: false
+    accumulation:
+      method: "final_only"
+
+# =============================================================================
+# COMPONENT 5: SCORE THRESHOLD ABLATIONS (formerly C7)
+# =============================================================================
+# Tests different accumulated score cutoffs for final feature selection.
+# Baseline: no threshold (keep all features with positive differential score)
+
+A7.1_score_threshold_0:
+  id: "A7.1"
+  description: "Score threshold >= 0 (keep features with non-negative score)"
+  parent: "baseline"
+  overrides:
+    score_threshold:
+      enabled: true
+      min_score: 0.0
+
+A7.2_score_threshold_1:
+  id: "A7.2"
+  description: "Score threshold >= 1.0 (moderate confidence)"
+  parent: "baseline"
+  overrides:
+    score_threshold:
+      enabled: true
+      min_score: 1.0
+
+A7.3_score_threshold_2:
+  id: "A7.3"
+  description: "Score threshold >= 2.0 (high confidence)"
+  parent: "baseline"
+  overrides:
+    score_threshold:
+      enabled: true
+      min_score: 2.0

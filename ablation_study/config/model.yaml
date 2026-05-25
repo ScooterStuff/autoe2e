@@ -1,0 +1,23 @@
+# =============================================================================
+# Model Configuration for Ablation Study
+# =============================================================================
+# Using a single model across all ablations for fair comparison.
+# Model selected based on replication study results.
+# =============================================================================
+
+# Primary model for all ablation experiments
+model:
+  name: "qwen2.5vl:32b"
+  ollama_model: "qwen2.5vl:32b"
+  context_length: 32000
+  description: "32B parameter vision-language model"
+
+# Embedding model (same across all experiments)
+embedding_model: "nomic-embed-text"
+
+# Ollama settings
+ollama:
+  base_url: "http://localhost:11434"
+  temperature: 0
+  num_predict: 4096
+  timeout: 120

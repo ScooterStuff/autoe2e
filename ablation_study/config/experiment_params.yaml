@@ -1,0 +1,42 @@
+# =============================================================================
+# Ablation Study Experiment Parameters
+# =============================================================================
+# Fixed parameters for fair comparison across all ablations.
+# =============================================================================
+
+exploration:
+  # Maximum runtime in minutes (0 = unlimited)
+  timeout_minutes: 600
+
+  # Maximum number of states to explore (0 = unlimited)
+  max_states: 0
+
+  # Maximum depth for exploration
+  max_depth: 12
+
+  # Search strategy
+  search_strategy: "bfs"
+
+execution:
+  # Number of repetitions per ablation-application pair
+  repetitions: 3
+
+  # Number of retries on failure
+  retry_on_failure: 3
+
+  # Delay between runs to allow cleanup (seconds)
+  inter_run_delay_seconds: 30
+
+  # Timeout for health checks (seconds)
+  health_check_timeout_seconds: 60
+
+browser:
+  # Use headless browser mode
+  headless: true
+
+  # Browser window dimensions
+  window_width: 1920
+  window_height: 1080
+
+  # Page load timeout
+  page_load_timeout: 30
