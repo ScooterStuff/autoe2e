@@ -1,0 +1,81 @@
+# Fixed Experiment Parameters for AutoE2E Replication Study
+# These parameters are consistent across all runs for reproducibility
+
+exploration:
+  # Maximum depth for BFS exploration
+  max_depth: 7
+
+  # Maximum runtime in minutes (720 = 12 hours)
+  timeout_minutes: 600
+
+  # Maximum number of states to explore
+  max_states: 1000
+
+  # Search strategy (bfs = breadth-first search)
+  search_strategy: "bfs"
+
+inference:
+  # Temperature for LLM inference (0 = deterministic)
+  temperature: 0
+
+  # R parameter - maximum candidate features to consider
+  max_candidate_features: 10
+
+  # Geometric scoring function parameter
+  geometric_p: 0.5
+
+  # Optional global seed for reproducibility (leave commented for non-seeded runs)
+  # seed: 42
+
+execution:
+  # Number of repetitions per model-application pair
+  repetitions: 1
+
+  # Number of retries on failure
+  retry_on_failure: 3
+
+  # Timeout for individual LLM queries (seconds)
+  query_timeout_seconds: 120
+
+  # Timeout for health checks (seconds)
+  health_check_timeout_seconds: 60
+
+  # Delay between runs to allow cleanup (seconds)
+  inter_run_delay_seconds: 30
+
+browser:
+  # Use headless browser mode
+  headless: true
+
+  # Browser window width
+  window_width: 1920
+
+  # Browser window height
+  window_height: 1080
+
+  # Page load timeout (seconds)
+  page_load_timeout: 30
+
+logging:
+  # Log level (DEBUG, INFO, WARNING, ERROR)
+  level: "INFO"
+
+  # Save detailed logs for each run
+  save_detailed_logs: true
+
+  # Log LLM prompts and responses
+  log_llm_interactions: true
+
+# Metrics collection settings
+metrics:
+  # Collect timing metrics
+  collect_timing: true
+
+  # Collect memory usage
+  collect_memory: false
+
+  # Save intermediate checkpoints
+  save_checkpoints: true
+
+  # Checkpoint interval (every N states)
+  checkpoint_interval: 10

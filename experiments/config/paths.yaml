@@ -1,0 +1,47 @@
+# Path Configuration for AutoE2E Experiments
+# All paths are relative to the project root unless specified
+
+# Base directories
+base:
+  project_root: "."
+  experiments_root: "experiments"
+
+# Configuration paths
+configs:
+  app_configs: "configs"
+  models_config: "experiments/config/models.yaml"
+  applications_config: "experiments/config/applications.yaml"
+  params_config: "experiments/config/experiment_params.yaml"
+
+# Output directories
+output:
+  results_base: "experiments/results"
+  replication_results: "experiments/results/replication"
+  aggregated_results: "experiments/results/aggregated"
+  checkpoints: "experiments/results/checkpoints"
+
+# Logs
+logs:
+  experiment_logs: "experiments/logs"
+  detailed_logs: "experiments/logs/detailed"
+
+# Temporary files
+temp:
+  temp_dir: "tmp"
+  screenshots: "tmp/screenshots"
+
+# Benchmark resources
+benchmark:
+  base: "benchmark"
+  ground_truth: "benchmark"
+
+# Report output
+reports:
+  base: "report"
+  run_summaries: "report"
+
+# Database settings (MongoDB)
+database:
+  # Collection names
+  functionality_collection: "functionality"
+  action_functionality_collection: "action-functionality"

@@ -1,0 +1,86 @@
+# E2EBENCH Benchmark Applications Configuration
+# All 8 applications from the E2EBENCH suite
+
+applications:
+  - name: "petclinic"
+    config_name: "PETCLINIC"
+    docker_compose: "benchmark/pet-clinic/docker-compose.yml"
+    url: "http://localhost:8080"
+    feature_count: 23
+    health_check_endpoint: "/"
+    health_check_timeout_seconds: 60
+    description: "PetClinic - Healthcare/veterinary management"
+    ground_truth_file: "pet-clinic.json"
+
+  - name: "realworld"
+    config_name: "REALWORLD"
+    docker_compose: "benchmark/realworld/docker-compose.yml"
+    url: "http://localhost:4100"
+    feature_count: 17
+    health_check_endpoint: "/"
+    health_check_timeout_seconds: 60
+    description: "Conduit/RealWorld - Blog platform"
+    ground_truth_file: "realworld.json"
+
+  - name: "taskcafe"
+    config_name: "TASKCAFE"
+    docker_compose: "benchmark/taskcafe/docker-compose.yml"
+    url: "http://localhost:3333"
+    feature_count: 32
+    health_check_endpoint: "/"
+    health_check_timeout_seconds: 90
+    description: "Taskcafe - Task management application"
+    ground_truth_file: "taskcafe.json"
+
+  - name: "dimeshift"
+    config_name: "DIMESHIFT"
+    docker_compose: "benchmark/dimeshift/docker-compose.yml"
+    url: "http://localhost:3006"
+    feature_count: 21
+    health_check_endpoint: "/"
+    health_check_timeout_seconds: 60
+    description: "Dimeshift - Expense tracking application"
+    ground_truth_file: "dimeshift.json"
+
+  - name: "mantisbt"
+    config_name: "MANTISBT"
+    docker_compose: "benchmark/mantisbt/docker-compose.yml"
+    url: "http://localhost:8989"
+    feature_count: 27
+    health_check_endpoint: "/"
+    health_check_timeout_seconds: 90
+    description: "MantisBT - Bug tracking system"
+    ground_truth_file: "mantisbt.json"
+
+  - name: "evertraduora"
+    config_name: "EVERTRADUORA"
+    docker_compose: "benchmark/ever-traduora/docker-compose.yaml"
+    url: "http://localhost:8085"
+    feature_count: 41
+    health_check_endpoint: "/"
+    health_check_timeout_seconds: 90
+    description: "EverTraduora - Translation management"
+    ground_truth_file: "evertraduora.json"
+
+  - name: "saleor-storefront"
+    config_name: "SALEOR_STOREFRONT"
+    docker_compose: "benchmark/saleor/docker-compose.yml"
+    url: "http://localhost:3000"
+    feature_count: 13
+    health_check_endpoint: "/default-channel"
+    health_check_timeout_seconds: 180
+    description: "Saleor Storefront - E-commerce frontend"
+    ground_truth_file: "saleor-storefront.json"
+
+  - name: "saleor-dashboard"
+    config_name: "SALEOR_DASHBOARD"
+    docker_compose: "benchmark/saleor/docker-compose.yml"
+    url: "http://localhost:3007"
+    feature_count: 130
+    health_check_endpoint: "/"
+    health_check_timeout_seconds: 180
+    description: "Saleor Dashboard - E-commerce admin"
+    ground_truth_file: "saleor-dashboard.json"
+
+# Default application for quick testing
+default_application: "petclinic"

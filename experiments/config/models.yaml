@@ -1,0 +1,112 @@
+# Models Configuration for AutoE2E Replication Study
+# Each model will be tested across all benchmark applications
+#
+# Optional per-model seed example:
+#   - name: "qwen3:8b"
+#     ollama_model: "qwen3:8b"
+#     seed: 42  # For reproducible runs
+
+models:
+  - name: "qwen3:8b"
+    ollama_model: "qwen3:8b"
+    context_length: 32768
+    description: "8B parameter general model (lower capability baseline)"
+    expected_performance: "baseline"
+
+  - name: "qwen3:32b"
+    ollama_model: "qwen3:32b"
+    context_length: 32768
+    description: "32B parameter general model (higher capability)"
+    expected_performance: "high"
+
+  - name: "qwen2.5vl:7b"
+    ollama_model: "qwen2.5vl:7b"
+    context_length: 125000
+    description: "7B parameter multimodal model with native vision capabilities"
+    expected_performance: "low"
+
+  - name: "devstral:24b"
+    ollama_model: "devstral:24b"
+    context_length: 128000
+    description: "24B parameter code-specialized model"
+    expected_performance: "high"
+
+  - name: "mistral-nemo:12b"
+    ollama_model: "mistral-nemo:12b"
+    context_length: 128000
+    description: "12B parameter model (medium capability)"
+    expected_performance: "medium"
+
+  - name: "llama3.1:8b"
+    ollama_model: "llama3.1:8b"
+    context_length: 128000
+    description: "8B parameter model (alternative baseline)"
+    expected_performance: "baseline"
+
+  - name: "llava-llama3:8b"
+    ollama_model: "llava-llama3:8b"
+    context_length: 8192
+    description: "8B multimodal model with vision capabilities"
+    expected_performance: "baseline"
+
+  - name: "gemma3:4b"
+    ollama_model: "gemma3:4b"
+    context_length: 128000
+    description: "4B multimodal model with native vision capabilities"
+    expected_performance: "lightweight"
+
+  - name: "gemma3:12b"
+    ollama_model: "gemma3:12b"
+    context_length: 128000
+    description: "12B multimodal model with native vision capabilities"
+    expected_performance: "baseline"
+
+  - name: "gemma3:27b"
+    ollama_model: "gemma3:27b"
+    context_length: 128000
+    description: "27B multimodal model with strong reasoning and vision"
+    expected_performance: "high"
+
+  - name: "qwen2.5-coder:32b"
+    ollama_model: "qwen2.5-coder:32b"
+    context_length: 32000
+    description: "32B parameter code-specialized model"
+    expected_performance: "high"
+
+  - name: "qwen2.5-coder:7b"
+    ollama_model: "qwen2.5-coder:7b"
+    context_length: 32000
+    description: "7B parameter code-specialized model"
+    expected_performance: "low"
+
+  - name: "qwen2.5vl:32b"
+    ollama_model: "qwen2.5vl:32b"
+    context_length: 125000
+    description: "32B parameter multimodal model with native vision capabilities"
+    expected_performance: "high"
+
+  - name: "qwen3-vl:32b"
+    ollama_model: "qwen3-vl:32b"
+    context_length: 256000
+    description: "32B parameter multimodal model with native vision capabilities"
+    expected_performance: "high"
+
+  - name: "deepseek-r1:32b"
+    ollama_model: "deepseek-r1:32b"
+    context_length: 128000
+    description: "32B reasoning-specialized model"
+    expected_performance: "high"
+
+  # --- OpenAI cloud models (provider: openai) ---
+  - name: "gpt-4o"
+    ollama_model: "gpt-4o"
+    provider: "openai"
+    context_length: 128000
+    description: "OpenAI GPT-4o (cloud reference run)"
+    expected_performance: "high"
+
+# Default model for testing
+default_model: "qwen3:8b"
+
+# Embedding model (shared across all experiments)
+embedding_model: "nomic-embed-text"
